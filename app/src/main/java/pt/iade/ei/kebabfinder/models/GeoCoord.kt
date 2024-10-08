@@ -1,6 +1,7 @@
 package pt.iade.ei.kebabfinder.models
 
 import android.location.Location
+import androidx.compose.ui.graphics.Color
 import kotlin.math.roundToInt
 
 data class GeoCoord(
@@ -17,5 +18,15 @@ data class GeoCoord(
         )
 
         return results[0].roundToInt()
+    }
+
+    fun distanceColor(distance: Int): Color {
+        return if (distance < 500) {
+            Color.Green
+        } else if ((distance >= 500) and (distance < 1000)) {
+            Color.Yellow
+        } else {
+            Color.Red
+        }
     }
 }

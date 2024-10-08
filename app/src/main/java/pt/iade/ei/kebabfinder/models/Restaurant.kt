@@ -12,4 +12,9 @@ data class Restaurant(
     val contacts: List<Contact>?,
     val openingHours: Array<List<Int>>?,
     val image: URI
-)
+) {
+    fun isOpenNow(): Boolean {
+        // TODO: Make this actually calculate if it's open.
+        return true
+    }
+}
