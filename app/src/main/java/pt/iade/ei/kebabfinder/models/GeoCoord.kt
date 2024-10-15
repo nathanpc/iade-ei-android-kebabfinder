@@ -2,12 +2,13 @@ package pt.iade.ei.kebabfinder.models
 
 import android.location.Location
 import androidx.compose.ui.graphics.Color
+import java.io.Serializable
 import kotlin.math.roundToInt
 
 data class GeoCoord(
     val latitude: Double,
     val longitude: Double
-) {
+) : Serializable {
     fun distanceFrom(startingPoint: GeoCoord): Int {
         val results = FloatArray(3)
         Location.distanceBetween(

@@ -1,5 +1,6 @@
 package pt.iade.ei.kebabfinder.models
 
+import java.io.Serializable
 import java.net.URI
 
 data class Restaurant(
@@ -12,7 +13,7 @@ data class Restaurant(
     val contacts: List<Contact>?,
     val openingHours: Array<List<Int>>?,
     val image: URI
-) {
+) : Serializable {
     fun isOpenNow(): Boolean {
         // TODO: Make this actually calculate if it's open.
         return true

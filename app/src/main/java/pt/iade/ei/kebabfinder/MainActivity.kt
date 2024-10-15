@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -18,10 +20,14 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import pt.iade.ei.kebabfinder.models.GeoCoord
 import pt.iade.ei.kebabfinder.models.Restaurant
 import pt.iade.ei.kebabfinder.ui.components.FeaturedItem
+import pt.iade.ei.kebabfinder.ui.components.RestaurantListItem
 import pt.iade.ei.kebabfinder.ui.theme.KebabFinderTheme
 import java.net.URI
 
@@ -38,6 +44,7 @@ class MainActivity : ComponentActivity() {
                 )
 
                 MainView(
+                    featuredRestaurants = ExampleRestaurants(),
                     currentLocation = location
                 )
             }
@@ -87,8 +94,26 @@ fun MainView(
         Column(
             modifier = Modifier.padding(innerPadding)
         ) {
-
+            Text(
+                text = "Featured Kebab Places",
+                fontSize = 24.sp,
+                modifier = Modifier.padding(
+                    bottom = 10.dp
+                )
+            )
             FeaturedItemRow(
+                restaurants = featuredRestaurants,
+                currentLocation = currentLocation
+            )
+
+            Text(
+                text = "Other Places to Eat",
+                fontSize = 24.sp,
+                modifier = Modifier.padding(
+                    top = 30.dp
+                )
+            )
+            RestaurantList(
                 restaurants = featuredRestaurants,
                 currentLocation = currentLocation
             )
@@ -96,6 +121,31 @@ fun MainView(
     }
 }
 
+@Composable
+fun RestaurantList(
+    restaurants: List<Restaurant>,
+    currentLocation: GeoCoord
+) {
+    LazyColumn {
+        items(restaurants) { restaurant ->
+            RestaurantListItem(
+                restaurant = restaurant,
+                currentLocation = currentLocation
+            )
+        }
+    }
+
+    /*
+    Column {
+        for (restaurant in restaurants) {
+            RestaurantListItem(
+                restaurant = restaurant,
+                currentLocation = currentLocation
+            )
+        }
+    }
+    */
+}
 
 @Preview(showBackground = true)
 @Composable
@@ -105,7 +155,16 @@ fun MainViewPreview() {
         longitude = 43.220
     )
 
-    val featuredRestaurants = listOf(
+    KebabFinderTheme {
+        MainView(
+            currentLocation = location,
+            featuredRestaurants = ExampleRestaurants()
+        )
+    }
+}
+
+fun ExampleRestaurants(): List<Restaurant> {
+    return listOf(
         Restaurant(
             id = 203040,
             name = "Palácio do Kebab",
@@ -155,11 +214,4 @@ fun MainViewPreview() {
             )
         )
     )
-
-    KebabFinderTheme {
-        MainView(
-            currentLocation = location,
-            featuredRestaurants = featuredRestaurants
-        )
-    }
 }
